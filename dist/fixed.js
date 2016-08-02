@@ -90,7 +90,7 @@
 	          until: null
 	        };
 
-	        var plugin = new _fixed.Fixed(this, $(window), $.extend(defaults, options));
+	        var plugin = new _fixed.Fixed(this, $(window), $.extend(true, defaults, options));
 	        plugin.init();
 	        plugin.registerEvents();
 

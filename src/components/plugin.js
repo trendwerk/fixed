@@ -16,7 +16,7 @@ export class Plugin {
         until: null,
       };
 
-      const plugin = new Fixed(this, $(window), $.extend(defaults, options));
+      const plugin = new Fixed(this, $(window), $.extend(true, defaults, options));
       plugin.init();
       plugin.registerEvents();
 
