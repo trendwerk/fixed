@@ -133,12 +133,12 @@
 	  _createClass(Fixed, [{
 	    key: 'init',
 	    value: function init() {
+	      this.height = this.$element.outerHeight();
 	      this.initial = {
 	        position: this.$element.css('position'),
 	        top: this.$element.css('top')
 	      };
 	      this.minScroll = this.$element.offset().top - this.offset.top;
-	      this.until = this.$until.offset().top - this.$element.outerHeight() - this.offset.bottom;
 
 	      if (this.$window.width() >= this.minWidth && !this.lastFrame) {
 	        this.lastFrame = this.check();
@@ -204,8 +204,10 @@
 	  }, {
 	    key: 'checkBottom',
 	    value: function checkBottom() {
-	      if (this.currentScroll >= this.until - this.offset.top) {
-	        var top = this.until - this.currentScroll;
+	      var until = this.$until.offset().top - this.height - this.offset.bottom;
+
+	      if (this.currentScroll >= until - this.offset.top) {
+	        var top = until - this.currentScroll;
 
 	        this.$element.css('top', top);
 	      } else {
