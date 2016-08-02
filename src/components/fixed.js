@@ -9,13 +9,10 @@ export class Fixed {
   }
 
   init() {
-    this.minScroll = this.$element.outerHeight();
+    this.minScroll = this.$element.offset().top;
 
     if (this.$window.width() >= this.minWidth && ! this.lastFrame) {
       this.lastFrame = this.check();
-      this.setFixed();
-    } else if (! this.lastFrame) {
-      this.removeFixed();
     }
   }
 
@@ -33,6 +30,12 @@ export class Fixed {
 
   calculate() {
     this.currentScroll = this.$window.scrollTop();
+
+    if (this.currentScroll > this.minScroll) {
+      this.setFixed();
+    } else {
+      this.removeFixed();
+    }
 
     if (this.$window.width() > this.minWidth) {
       this.lastFrame = this.check();
