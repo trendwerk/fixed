@@ -1,0 +1,6 @@
+{
+  "name": "fixed",
+  "dependencies": {
+    "jquery": "~3"
+  }
+}
