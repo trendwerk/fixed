@@ -82,7 +82,8 @@
 	        }
 
 	        var defaults = {
-	          minWidth: 0
+	          minWidth: 0,
+	          offset: 0
 	        };
 
 	        var plugin = new _fixed.Fixed(this, $(window), $.extend(defaults, options));
@@ -121,12 +122,14 @@
 	    this.fixed = false;
 	    this.lastFrame = null;
 	    this.minWidth = options.minWidth;
+	    this.offset = options.offset;
 	  }
 
 	  _createClass(Fixed, [{
 	    key: 'init',
 	    value: function init() {
-	      this.minScroll = this.$element.offset().top;
+	      this.elementOffset = parseInt(this.$element.css('top'));
+	      this.minScroll = this.$element.offset().top - this.offset;
 
 	      if (this.$window.width() >= this.minWidth && !this.lastFrame) {
 	        this.lastFrame = this.check();
@@ -155,6 +158,8 @@
 	    value: function calculate() {
 	      this.currentScroll = this.$window.scrollTop();
 
+	      console.log(this.offset, this.elementOffset, this.minScroll);
+
 	      if (this.currentScroll > this.minScroll) {
 	        this.setFixed();
 	      } else {
@@ -172,6 +177,11 @@
 	    value: function setFixed() {
 	      if (!this.fixed) {
 	        this.$element.addClass('fixed');
+
+	        if (this.offset) {
+	          this.$element.css('top', this.offset + 'px');
+	        }
+
 	        this.fixed = true;
 	      }
 	    }
@@ -180,6 +190,11 @@
 	    value: function removeFixed() {
 	      if (this.fixed) {
 	        this.$element.removeClass('fixed');
+
+	        if (this.offset) {
+	          this.$element.css('top', this.elementOffset);
+	        }
+
 	        this.fixed = false;
 	      }
 	    }
