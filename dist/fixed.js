@@ -83,6 +83,10 @@
 
 	        var defaults = {
 	          minWidth: 0,
+	          offset: {
+	            bottom: 0,
+	            top: 0
+	          },
 	          until: null
 	        };
 
@@ -133,8 +137,8 @@
 	        position: this.$element.css('position'),
 	        top: this.$element.css('top')
 	      };
-	      this.minScroll = this.$element.offset().top - this.offset;
-	      this.until = this.$until.offset().top - this.$element.outerHeight();
+	      this.minScroll = this.$element.offset().top - this.offset.top;
+	      this.until = this.$until.offset().top - this.$element.outerHeight() - this.offset.bottom;
 
 	      if (this.$window.width() >= this.minWidth && !this.lastFrame) {
 	        this.lastFrame = this.check();
@@ -184,7 +188,7 @@
 	      if (!this.fixed) {
 	        this.$element.css({
 	          position: 'fixed',
-	          top: this.offset
+	          top: this.offset.top
 	        });
 	        this.fixed = true;
 	      }
@@ -200,12 +204,12 @@
 	  }, {
 	    key: 'checkBottom',
 	    value: function checkBottom() {
-	      if (this.currentScroll >= this.until - this.offset) {
+	      if (this.currentScroll >= this.until - this.offset.top) {
 	        var top = this.until - this.currentScroll;
 
 	        this.$element.css('top', top);
 	      } else {
-	        this.$element.css('top', this.offset);
+	        this.$element.css('top', this.offset.top);
 	      }
 	    }
 	  }]);

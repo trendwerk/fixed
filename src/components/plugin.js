@@ -9,6 +9,10 @@ export class Plugin {
 
       const defaults = {
         minWidth: 0,
+        offset: {
+          bottom: 0,
+          top: 0,
+        },
         until: null,
       };
 
