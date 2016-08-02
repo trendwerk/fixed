@@ -10,6 +10,7 @@ export class Plugin {
       const defaults = {
         minWidth: 0,
         offset: 0,
+        until: null,
       };
 
       const plugin = new Fixed(this, $(window), $.extend(defaults, options));

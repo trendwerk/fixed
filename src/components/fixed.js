@@ -1,16 +1,17 @@
 export class Fixed {
   constructor(element, window, options) {
     this.$element = element;
+    this.$until = options.until;
     this.$window = window;
     this.currentScroll = 0;
     this.fixed = false;
     this.lastFrame = null;
     this.minWidth = options.minWidth;
-    this.offset = options.offset;
+    this.radix = 10; // Decimal
   }
 
   init() {
-    this.elementOffset = parseInt(this.$element.css('top'));
+    this.offset = parseInt(this.$element.css('top'), this.radix);
     this.minScroll = this.$element.offset().top - this.offset;
 
     if (this.$window.width() >= this.minWidth && ! this.lastFrame) {
@@ -20,6 +21,8 @@ export class Fixed {
 
   registerEvents() {
     this.$window.resize(() => {
+      // Remove fixed class for correct offset calculations
+      this.removeFixed();
       this.init();
     });
   }
@@ -32,8 +35,6 @@ export class Fixed {
 
   calculate() {
     this.currentScroll = this.$window.scrollTop();
-
-    console.log(this.offset, this.elementOffset, this.minScroll);
 
     if (this.currentScroll > this.minScroll) {
       this.setFixed();
@@ -51,11 +52,6 @@ export class Fixed {
   setFixed() {
     if (! this.fixed) {
       this.$element.addClass('fixed');
-
-      if (this.offset) {
-        this.$element.css('top', `${this.offset}px`);
-      }
-
       this.fixed = true;
     }
   }
@@ -63,11 +59,6 @@ export class Fixed {
   removeFixed() {
     if (this.fixed) {
       this.$element.removeClass('fixed');
-
-      if (this.offset) {
-        this.$element.css('top', this.elementOffset);
-      }
-
       this.fixed = false;
     }
   }
