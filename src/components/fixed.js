@@ -7,13 +7,16 @@ export class Fixed {
     this.fixed = false;
     this.lastFrame = null;
     this.minWidth = options.minWidth;
-    this.radix = 10; // Decimal
+    this.offset = options.offset;
   }
 
   init() {
-    this.offset = parseInt(this.$element.css('margin-top'), this.radix);
+    this.initial = {
+      position: this.$element.css('position'),
+      top: this.$element.css('top'),
+    };
     this.minScroll = this.$element.offset().top - this.offset;
-    this.until = this.$until.offset().top - this.$element.outerHeight() - this.offset;
+    this.until = this.$until.offset().top - this.$element.outerHeight();
 
     if (this.$window.width() >= this.minWidth && ! this.lastFrame) {
       this.lastFrame = this.check();
@@ -53,23 +56,28 @@ export class Fixed {
 
   setFixed() {
     if (! this.fixed) {
-      this.$element.addClass('fixed');
+      this.$element.css({
+        position: 'fixed',
+        top: this.offset,
+      });
       this.fixed = true;
     }
   }
 
   removeFixed() {
     if (this.fixed) {
-      this.$element.removeClass('fixed');
+      this.$element.css(this.initial);
       this.fixed = false;
     }
   }
 
   checkBottom() {
-    if (this.currentScroll >= this.until) {
+    if (this.currentScroll >= (this.until - this.offset)) {
       const top = this.until - this.currentScroll;
 
-      this.$element.css('top', `${top}px`);
+      this.$element.css('top', top);
+    } else {
+      this.$element.css('top', this.offset);
     }
   }
 }
