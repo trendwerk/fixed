@@ -76,12 +76,18 @@
 	  _createClass(Plugin, [{
 	    key: 'init',
 	    value: function init() {
-	      $.fn.fixed = function fixed() {
+	      $.fn.fixed = function fixed(options) {
 	        if (!window.requestAnimationFrame) {
 	          return false;
 	        }
 
-	        var plugin = new _fixed.Fixed();
+	        var defaults = {
+	          minWidth: 0
+	        };
+
+	        var plugin = new _fixed.Fixed(this, $(window), $.extend(defaults, options));
+	        plugin.init();
+	        plugin.registerEvents();
 
 	        return plugin;
 	      };
@@ -95,17 +101,89 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var Fixed = exports.Fixed = function Fixed() {
-	  _classCallCheck(this, Fixed);
-	};
+	var Fixed = exports.Fixed = function () {
+	  function Fixed(element, window, options) {
+	    _classCallCheck(this, Fixed);
+
+	    this.$element = element;
+	    this.$window = window;
+	    this.currentScroll = 0;
+	    this.fixed = false;
+	    this.lastFrame = null;
+	    this.minWidth = options.minWidth;
+	  }
+
+	  _createClass(Fixed, [{
+	    key: 'init',
+	    value: function init() {
+	      this.minScroll = this.$element.outerHeight();
+
+	      if (this.$window.width() >= this.minWidth && !this.lastFrame) {
+	        this.lastFrame = this.check();
+	        this.setFixed();
+	      } else if (!this.lastFrame) {
+	        this.removeFixed();
+	      }
+	    }
+	  }, {
+	    key: 'registerEvents',
+	    value: function registerEvents() {
+	      var _this = this;
+
+	      this.$window.resize(function () {
+	        _this.init();
+	      });
+	    }
+	  }, {
+	    key: 'check',
+	    value: function check() {
+	      var _this2 = this;
+
+	      return requestAnimationFrame(function () {
+	        _this2.calculate();
+	      });
+	    }
+	  }, {
+	    key: 'calculate',
+	    value: function calculate() {
+	      this.currentScroll = this.$window.scrollTop();
+
+	      if (this.$window.width() > this.minWidth) {
+	        this.lastFrame = this.check();
+	      } else {
+	        this.lastFrame = null;
+	      }
+	    }
+	  }, {
+	    key: 'setFixed',
+	    value: function setFixed() {
+	      if (!this.fixed) {
+	        this.$element.addClass('fixed');
+	        this.fixed = true;
+	      }
+	    }
+	  }, {
+	    key: 'removeFixed',
+	    value: function removeFixed() {
+	      if (this.fixed) {
+	        this.$element.removeClass('fixed');
+	        this.fixed = false;
+	      }
+	    }
+	  }]);
+
+	  return Fixed;
+	}();
 
 /***/ }
 /******/ ]);
