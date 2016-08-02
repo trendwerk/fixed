@@ -83,7 +83,6 @@
 
 	        var defaults = {
 	          minWidth: 0,
-	          offset: 0,
 	          until: null
 	        };
 
@@ -130,8 +129,9 @@
 	  _createClass(Fixed, [{
 	    key: 'init',
 	    value: function init() {
-	      this.offset = parseInt(this.$element.css('top'), this.radix);
+	      this.offset = parseInt(this.$element.css('margin-top'), this.radix);
 	      this.minScroll = this.$element.offset().top - this.offset;
+	      this.until = this.$until.offset().top - this.$element.outerHeight() - this.offset;
 
 	      if (this.$window.width() >= this.minWidth && !this.lastFrame) {
 	        this.lastFrame = this.check();
@@ -164,6 +164,7 @@
 
 	      if (this.currentScroll > this.minScroll) {
 	        this.setFixed();
+	        this.checkBottom();
 	      } else {
 	        this.removeFixed();
 	      }
@@ -188,6 +189,15 @@
 	      if (this.fixed) {
 	        this.$element.removeClass('fixed');
 	        this.fixed = false;
+	      }
+	    }
+	  }, {
+	    key: 'checkBottom',
+	    value: function checkBottom() {
+	      if (this.currentScroll >= this.until) {
+	        var top = this.until - this.currentScroll;
+
+	        this.$element.css('top', top + 'px');
 	      }
 	    }
 	  }]);
