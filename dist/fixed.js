@@ -81,6 +81,10 @@
 	          return false;
 	        }
 
+	        if (!this.length) {
+	          return;
+	        }
+
 	        var defaults = {
 	          minWidth: 0,
 	          offset: {

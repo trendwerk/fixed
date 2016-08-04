@@ -7,6 +7,10 @@ export class Plugin {
         return false;
       }
 
+      if (! this.length) {
+        return;
+      }
+
       const defaults = {
         minWidth: 0,
         offset: {
