@@ -204,6 +204,10 @@
 	  }, {
 	    key: 'checkBottom',
 	    value: function checkBottom() {
+	      if (!this.$until) {
+	        return;
+	      }
+
 	      var until = this.$until.offset().top - this.height - this.offset.bottom;
 
 	      if (this.currentScroll >= until - this.offset.top) {

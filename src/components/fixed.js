@@ -72,6 +72,10 @@ export class Fixed {
   }
 
   checkBottom() {
+    if (! this.$until) {
+      return;
+    }
+
     const until = this.$until.offset().top - this.height - this.offset.bottom;
 
     if (this.currentScroll >= (until - this.offset.top)) {
