@@ -2,7 +2,7 @@ import { Fixed } from './fixed';
 
 export class Plugin {
   init() {
-    $.fn.fixed = function fixed(options) {
+    jQuery.fn.fixed = function fixed(options) {
       if (! window.requestAnimationFrame) {
         return false;
       }
@@ -16,7 +16,7 @@ export class Plugin {
         until: null,
       };
 
-      const plugin = new Fixed(this, $(window), $.extend(true, defaults, options));
+      const plugin = new Fixed(this, jQuery(window), jQuery.extend(true, defaults, options));
       plugin.init();
       plugin.registerEvents();
 

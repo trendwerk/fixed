@@ -76,7 +76,7 @@
 	  _createClass(Plugin, [{
 	    key: 'init',
 	    value: function init() {
-	      $.fn.fixed = function fixed(options) {
+	      jQuery.fn.fixed = function fixed(options) {
 	        if (!window.requestAnimationFrame) {
 	          return false;
 	        }
@@ -90,7 +90,7 @@
 	          until: null
 	        };
 
-	        var plugin = new _fixed.Fixed(this, $(window), $.extend(true, defaults, options));
+	        var plugin = new _fixed.Fixed(this, jQuery(window), jQuery.extend(true, defaults, options));
 	        plugin.init();
 	        plugin.registerEvents();
 
