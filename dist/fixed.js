@@ -125,6 +125,7 @@
 	    this.$window = window;
 	    this.currentScroll = 0;
 	    this.fixed = false;
+	    this.flush = {};
 	    this.lastFrame = null;
 	    this.minWidth = options.minWidth;
 	    this.offset = options.offset;
@@ -178,6 +179,7 @@
 	    value: function reCalculate() {
 	      // Remove fixed class for correct offset calculations
 	      this.removeFixed();
+	      this.writeDom();
 	      this.init();
 	    }
 	  }, {
@@ -201,6 +203,8 @@
 	        this.removeFixed();
 	      }
 
+	      this.writeDom();
+
 	      if (this.$window.width() >= this.minWidth) {
 	        this.lastFrame = this.check();
 	      } else {
@@ -211,10 +215,10 @@
 	    key: 'setFixed',
 	    value: function setFixed() {
 	      if (!this.fixed) {
-	        this.$element.css({
+	        this.flush = {
 	          position: 'fixed',
 	          top: this.offset.top
-	        });
+	        };
 	        this.fixed = true;
 	      }
 	    }
@@ -222,7 +226,7 @@
 	    key: 'removeFixed',
 	    value: function removeFixed() {
 	      if (this.fixed) {
-	        this.$element.css(this.initial);
+	        this.flush = this.initial;
 	        this.fixed = false;
 	      }
 	    }
@@ -236,9 +240,16 @@
 	      if (this.currentScroll >= this.until - this.offset.top) {
 	        var top = this.until - this.currentScroll;
 
-	        this.$element.css('top', top);
+	        this.flush.top = top;
 	      } else {
-	        this.$element.css('top', this.offset.top);
+	        this.flush.top = this.offset.top;
+	      }
+	    }
+	  }, {
+	    key: 'writeDom',
+	    value: function writeDom() {
+	      if (this.flush) {
+	        this.$element.css(this.flush);
 	      }
 	    }
 	  }]);
