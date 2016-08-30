@@ -39,7 +39,7 @@ export class Fixed {
       });
     }
 
-    this.$window.resize(() => {
+    this.$window.on('resize', () => {
       this.reCalculate();
     });
   }

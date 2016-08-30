@@ -165,7 +165,7 @@
 	        });
 	      }
 
-	      this.$window.resize(function () {
+	      this.$window.on('resize', function () {
 	        _this.reCalculate();
 	      });
 	    }
