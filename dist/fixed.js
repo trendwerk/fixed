@@ -180,6 +180,7 @@
 	      // Remove fixed class for correct offset calculations
 	      this.removeFixed();
 	      this.writeDom();
+
 	      this.init();
 	    }
 	  }, {
@@ -239,7 +240,6 @@
 
 	      if (this.currentScroll >= this.until - this.offset.top) {
 	        var top = this.until - this.currentScroll;
-
 	        this.flush.top = top;
 	      } else {
 	        this.flush.top = this.offset.top;

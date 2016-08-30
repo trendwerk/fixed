@@ -51,6 +51,7 @@ export class Fixed {
     // Remove fixed class for correct offset calculations
     this.removeFixed();
     this.writeDom();
+
     this.init();
   }
 
@@ -103,7 +104,6 @@ export class Fixed {
 
     if (this.currentScroll >= (this.until - this.offset.top)) {
       const top = this.until - this.currentScroll;
-
       this.flush.top = top;
     } else {
       this.flush.top = this.offset.top;
