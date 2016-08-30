@@ -36,8 +36,8 @@ $('.sidebar').fixed({
 });
 ```
 
-## Recalculate values
-This plugin takes image into consideration by calculating some heights when the window is done loading. It is possible that there are events that take place after this which influence dimensions and distances, for example other plugins or deferred events. To accommodate this, there is a `reCalculate()` method available which can be fired after these events take place. An example:
+## Recalculating values
+This plugin takes images into consideration by calculating some heights when the window is done loading. It is possible that there are events that take place after this which influence dimensions and distances, for example other plugins or deferred events. To accommodate this, there is a `reCalculate()` method available which can be fired after these events take place. An example:
 
 ```js
 const fixedWidget = $('.widget').fixed();
