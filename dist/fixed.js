@@ -168,9 +168,17 @@
 	      this.$window.resize(function () {
 	        // Remove fixed class for correct offset calculations
 	        _this.removeFixed();
-	        _this.init();
-	        _this.calculateUntil();
+	        _this.reCalculate();
 	      });
+	    }
+
+	    // Method for public use
+
+	  }, {
+	    key: 'reCalculate',
+	    value: function reCalculate() {
+	      this.init();
+	      this.calculateUntil();
 	    }
 	  }, {
 	    key: 'check',

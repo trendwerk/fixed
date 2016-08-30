@@ -42,9 +42,14 @@ export class Fixed {
     this.$window.resize(() => {
       // Remove fixed class for correct offset calculations
       this.removeFixed();
-      this.init();
-      this.calculateUntil();
+      this.reCalculate();
     });
+  }
+
+  // Method for public use
+  reCalculate() {
+    this.init();
+    this.calculateUntil();
   }
 
   check() {
