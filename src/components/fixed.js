@@ -23,11 +23,27 @@ export class Fixed {
     }
   }
 
+  calculateUntil() {
+    if (this.$until) {
+      this.until = this.$until.offset().top - this.height - this.offset.bottom;
+    }
+  }
+
   registerEvents() {
+    // Check if document is already loaded to prevent race condition
+    if (document.readyState === 'complete') {
+      this.calculateUntil();
+    } else {
+      this.$window.on('load', () => {
+        this.calculateUntil();
+      });
+    }
+
     this.$window.resize(() => {
       // Remove fixed class for correct offset calculations
       this.removeFixed();
       this.init();
+      this.calculateUntil();
     });
   }
 
@@ -72,14 +88,12 @@ export class Fixed {
   }
 
   checkBottom() {
-    if (! this.$until) {
+    if (! this.until) {
       return;
     }
 
-    const until = this.$until.offset().top - this.height - this.offset.bottom;
-
-    if (this.currentScroll >= (until - this.offset.top)) {
-      const top = until - this.currentScroll;
+    if (this.currentScroll >= (this.until - this.offset.top)) {
+      const top = this.until - this.currentScroll;
 
       this.$element.css('top', top);
     } else {

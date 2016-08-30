@@ -145,14 +145,31 @@
 	      }
 	    }
 	  }, {
+	    key: 'calculateUntil',
+	    value: function calculateUntil() {
+	      if (this.$until) {
+	        this.until = this.$until.offset().top - this.height - this.offset.bottom;
+	      }
+	    }
+	  }, {
 	    key: 'registerEvents',
 	    value: function registerEvents() {
 	      var _this = this;
+
+	      // Check if document is already loaded to prevent race condition
+	      if (document.readyState === 'complete') {
+	        this.calculateUntil();
+	      } else {
+	        this.$window.on('load', function () {
+	          _this.calculateUntil();
+	        });
+	      }
 
 	      this.$window.resize(function () {
 	        // Remove fixed class for correct offset calculations
 	        _this.removeFixed();
 	        _this.init();
+	        _this.calculateUntil();
 	      });
 	    }
 	  }, {
@@ -204,14 +221,12 @@
 	  }, {
 	    key: 'checkBottom',
 	    value: function checkBottom() {
-	      if (!this.$until) {
+	      if (!this.until) {
 	        return;
 	      }
 
-	      var until = this.$until.offset().top - this.height - this.offset.bottom;
-
-	      if (this.currentScroll >= until - this.offset.top) {
-	        var top = until - this.currentScroll;
+	      if (this.currentScroll >= this.until - this.offset.top) {
+	        var top = this.until - this.currentScroll;
 
 	        this.$element.css('top', top);
 	      } else {
