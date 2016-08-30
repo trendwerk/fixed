@@ -134,6 +134,7 @@
 	    key: 'init',
 	    value: function init() {
 	      this.height = this.$element.outerHeight();
+	      this.calculateUntil();
 	      this.initial = {
 	        position: this.$element.css('position'),
 	        top: this.$element.css('top')
@@ -178,7 +179,6 @@
 	      // Remove fixed class for correct offset calculations
 	      this.removeFixed();
 	      this.init();
-	      this.calculateUntil();
 	    }
 	  }, {
 	    key: 'check',

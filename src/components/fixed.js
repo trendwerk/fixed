@@ -12,6 +12,7 @@ export class Fixed {
 
   init() {
     this.height = this.$element.outerHeight();
+    this.calculateUntil();
     this.initial = {
       position: this.$element.css('position'),
       top: this.$element.css('top'),
@@ -49,7 +50,6 @@ export class Fixed {
     // Remove fixed class for correct offset calculations
     this.removeFixed();
     this.init();
-    this.calculateUntil();
   }
 
   check() {
