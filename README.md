@@ -35,15 +35,3 @@ $('.sidebar').fixed({
   until: $('.footer'),
 });
 ```
-
-## Recalculating values
-This plugin takes images into consideration by calculating some heights when the window is done loading. It is possible that there are events that take place after this which influence dimensions and distances, for example other plugins or deferred events. To accommodate this, there is a `reCalculate()` method available which can be fired after these events take place. An example:
-
-```js
-const fixedWidget = $('.widget').fixed();
-
-...
-
-// Inside some callback
-fixedWidget.reCalculate();
-```
