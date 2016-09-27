@@ -19,10 +19,6 @@ export class Fixed {
     };
     this.minScroll = this.$element.offset().top - this.offset.top;
 
-    this.initFrame();
-  }
-
-  initFrame() {
     if (! this.lastFrame) {
       this.next();
     }

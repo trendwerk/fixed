@@ -141,11 +141,6 @@
 	      };
 	      this.minScroll = this.$element.offset().top - this.offset.top;
 
-	      this.initFrame();
-	    }
-	  }, {
-	    key: 'initFrame',
-	    value: function initFrame() {
 	      if (!this.lastFrame) {
 	        this.next();
 	      }
