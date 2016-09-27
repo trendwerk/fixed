@@ -165,6 +165,7 @@
 
 	      return requestAnimationFrame(function () {
 	        _this2.calculate();
+	        _this2.render();
 	      });
 	    }
 	  }, {
@@ -179,12 +180,17 @@
 	        this.removeFixed();
 	      }
 
-	      this.render();
-
 	      if (this.$window.width() >= this.minWidth) {
 	        this.lastFrame = this.check();
 	      } else {
 	        this.lastFrame = null;
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (this.flush) {
+	        this.$element.css(this.flush);
 	      }
 	    }
 	  }, {
@@ -220,13 +226,6 @@
 	        this.flush.top = top;
 	      } else {
 	        this.flush.top = this.offset.top;
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      if (this.flush) {
-	        this.$element.css(this.flush);
 	      }
 	    }
 	  }]);
