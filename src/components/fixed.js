@@ -13,7 +13,6 @@ export class Fixed {
 
   init() {
     this.height = this.$element.outerHeight();
-    this.calculateUntil();
     this.initial = {
       position: this.$element.css('position'),
       top: this.$element.css('top'),
@@ -25,34 +24,14 @@ export class Fixed {
     }
   }
 
-  calculateUntil() {
-    if (this.$until) {
-      this.until = this.$until.offset().top - this.height - this.offset.bottom;
-    }
-  }
-
   registerEvents() {
-    // Check if document is already loaded to prevent race condition
-    if (document.readyState === 'complete') {
-      this.calculateUntil();
-    } else {
-      this.$window.on('load', () => {
-        this.calculateUntil();
-      });
-    }
+    this.$window.resize(() => {
+      // Remove fixed class for correct offset calculations
+      this.removeFixed();
+      this.writeDom();
 
-    this.$window.on('resize', () => {
-      this.reCalculate();
+      this.init();
     });
-  }
-
-  // Method for public use
-  reCalculate() {
-    // Remove fixed class for correct offset calculations
-    this.removeFixed();
-    this.writeDom();
-
-    this.init();
   }
 
   check() {
@@ -98,12 +77,14 @@ export class Fixed {
   }
 
   checkBottom() {
-    if (! this.until) {
+    if (! this.$until) {
       return;
     }
 
-    if (this.currentScroll >= (this.until - this.offset.top)) {
-      const top = this.until - this.currentScroll;
+    const until = this.$until.offset().top - this.height - this.offset.bottom;
+
+    if (this.currentScroll >= (until - this.offset.top)) {
+      const top = until - this.currentScroll;
       this.flush.top = top;
     } else {
       this.flush.top = this.offset.top;

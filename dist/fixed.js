@@ -135,7 +135,6 @@
 	    key: 'init',
 	    value: function init() {
 	      this.height = this.$element.outerHeight();
-	      this.calculateUntil();
 	      this.initial = {
 	        position: this.$element.css('position'),
 	        top: this.$element.css('top')
@@ -147,41 +146,17 @@
 	      }
 	    }
 	  }, {
-	    key: 'calculateUntil',
-	    value: function calculateUntil() {
-	      if (this.$until) {
-	        this.until = this.$until.offset().top - this.height - this.offset.bottom;
-	      }
-	    }
-	  }, {
 	    key: 'registerEvents',
 	    value: function registerEvents() {
 	      var _this = this;
 
-	      // Check if document is already loaded to prevent race condition
-	      if (document.readyState === 'complete') {
-	        this.calculateUntil();
-	      } else {
-	        this.$window.on('load', function () {
-	          _this.calculateUntil();
-	        });
-	      }
+	      this.$window.resize(function () {
+	        // Remove fixed class for correct offset calculations
+	        _this.removeFixed();
+	        _this.writeDom();
 
-	      this.$window.on('resize', function () {
-	        _this.reCalculate();
+	        _this.init();
 	      });
-	    }
-
-	    // Method for public use
-
-	  }, {
-	    key: 'reCalculate',
-	    value: function reCalculate() {
-	      // Remove fixed class for correct offset calculations
-	      this.removeFixed();
-	      this.writeDom();
-
-	      this.init();
 	    }
 	  }, {
 	    key: 'check',
@@ -234,12 +209,14 @@
 	  }, {
 	    key: 'checkBottom',
 	    value: function checkBottom() {
-	      if (!this.until) {
+	      if (!this.$until) {
 	        return;
 	      }
 
-	      if (this.currentScroll >= this.until - this.offset.top) {
-	        var top = this.until - this.currentScroll;
+	      var until = this.$until.offset().top - this.height - this.offset.bottom;
+
+	      if (this.currentScroll >= until - this.offset.top) {
+	        var top = until - this.currentScroll;
 	        this.flush.top = top;
 	      } else {
 	        this.flush.top = this.offset.top;
