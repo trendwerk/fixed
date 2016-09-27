@@ -166,6 +166,7 @@
 	      return requestAnimationFrame(function () {
 	        _this2.calculate();
 	        _this2.render();
+	        _this2.next();
 	      });
 	    }
 	  }, {
@@ -179,18 +180,21 @@
 	      } else {
 	        this.removeFixed();
 	      }
-
-	      if (this.$window.width() >= this.minWidth) {
-	        this.lastFrame = this.check();
-	      } else {
-	        this.lastFrame = null;
-	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      if (this.flush) {
 	        this.$element.css(this.flush);
+	      }
+	    }
+	  }, {
+	    key: 'next',
+	    value: function next() {
+	      if (this.$window.width() >= this.minWidth) {
+	        this.lastFrame = this.check();
+	      } else {
+	        this.lastFrame = null;
 	      }
 	    }
 	  }, {

@@ -38,6 +38,7 @@ export class Fixed {
     return requestAnimationFrame(() => {
       this.calculate();
       this.render();
+      this.next();
     });
   }
 
@@ -50,17 +51,19 @@ export class Fixed {
     } else {
       this.removeFixed();
     }
-
-    if (this.$window.width() >= this.minWidth) {
-      this.lastFrame = this.check();
-    } else {
-      this.lastFrame = null;
-    }
   }
 
   render() {
     if (this.flush) {
       this.$element.css(this.flush);
+    }
+  }
+
+  next() {
+    if (this.$window.width() >= this.minWidth) {
+      this.lastFrame = this.check();
+    } else {
+      this.lastFrame = null;
     }
   }
 
