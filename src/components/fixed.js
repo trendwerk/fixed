@@ -28,7 +28,7 @@ export class Fixed {
     this.$window.resize(() => {
       // Remove fixed class for correct offset calculations
       this.removeFixed();
-      this.writeDom();
+      this.render();
 
       this.init();
     });
@@ -50,7 +50,7 @@ export class Fixed {
       this.removeFixed();
     }
 
-    this.writeDom();
+    this.render();
 
     if (this.$window.width() >= this.minWidth) {
       this.lastFrame = this.check();
@@ -91,7 +91,7 @@ export class Fixed {
     }
   }
 
-  writeDom() {
+  render() {
     if (this.flush) {
       this.$element.css(this.flush);
     }

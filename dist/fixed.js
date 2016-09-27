@@ -153,7 +153,7 @@
 	      this.$window.resize(function () {
 	        // Remove fixed class for correct offset calculations
 	        _this.removeFixed();
-	        _this.writeDom();
+	        _this.render();
 
 	        _this.init();
 	      });
@@ -179,7 +179,7 @@
 	        this.removeFixed();
 	      }
 
-	      this.writeDom();
+	      this.render();
 
 	      if (this.$window.width() >= this.minWidth) {
 	        this.lastFrame = this.check();
@@ -223,8 +223,8 @@
 	      }
 	    }
 	  }, {
-	    key: 'writeDom',
-	    value: function writeDom() {
+	    key: 'render',
+	    value: function render() {
 	      if (this.flush) {
 	        this.$element.css(this.flush);
 	      }
