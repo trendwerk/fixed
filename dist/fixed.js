@@ -141,8 +141,13 @@
 	      };
 	      this.minScroll = this.$element.offset().top - this.offset.top;
 
-	      if (this.$window.width() >= this.minWidth && !this.lastFrame) {
-	        this.lastFrame = this.check();
+	      this.initFrame();
+	    }
+	  }, {
+	    key: 'initFrame',
+	    value: function initFrame() {
+	      if (!this.lastFrame) {
+	        this.next();
 	      }
 	    }
 	  }, {
