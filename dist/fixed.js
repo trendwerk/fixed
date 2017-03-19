@@ -135,6 +135,7 @@
 	    key: 'init',
 	    value: function init() {
 	      this.height = this.$element.outerHeight();
+	      this.fits = this.$window.height() > this.height + this.offset.bottom + this.offset.top;
 	      this.initial = {
 	        position: this.$element.css('position'),
 	        top: this.$element.css('top')
@@ -174,7 +175,7 @@
 	    value: function calculate() {
 	      this.currentScroll = this.$window.scrollTop();
 
-	      if (this.currentScroll > this.minScroll) {
+	      if (this.fits && this.currentScroll > this.minScroll) {
 	        this.setFixed();
 	        this.checkBottom();
 	      } else {
